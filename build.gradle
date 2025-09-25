@@ -36,6 +36,10 @@ dependencies {
     runtimeOnly 'org.postgresql:postgresql'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
 
+    // FIX: Add this line for your Mac's architecture
+    runtimeOnly 'io.netty:netty-resolver-dns-native-macos::osx-aarch_64' // Or osx-x86_64
+
+
     // Lombok
     compileOnly 'org.projectlombok:lombok:1.18.34'
     annotationProcessor 'org.projectlombok:lombok:1.18.34'

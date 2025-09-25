@@ -9,20 +9,7 @@
 //
 //@Configuration
 //public class HttpInterfaceWebClientConfig {
-//
-//
-//    @Bean
-//    public DynamicApiClient dynamicApiClient() {
-//        // Create a generic WebClient with no base URL
-//        WebClient webClient = WebClient.builder().build();
-//
-//        HttpServiceProxyFactory factory = HttpServiceProxyFactory
-//                .builder(WebClientAdapter.forClient(webClient))
-//                .build();
-//
-//        return factory.createClient(DynamicApiClient.class);
-//    }
-//
+
 ////    @Bean
 ////    public PlatziFakeStoreClient platziFakeStoreClient() {
 ////        // Step 1 => Create web client object

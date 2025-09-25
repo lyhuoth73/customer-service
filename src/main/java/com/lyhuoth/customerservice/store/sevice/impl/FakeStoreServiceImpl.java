@@ -13,8 +13,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class FakeStoreServiceImpl implements FakeStoreService {
 
-    @Autowired
-    private  PlatziFakeStoreClient platziFakeStoreClient;
+
+    private final PlatziFakeStoreClient platziFakeStoreClient;
     @Override
     public List<CategoryResponseDTO> getCategories() {
         return platziFakeStoreClient.getCategories();

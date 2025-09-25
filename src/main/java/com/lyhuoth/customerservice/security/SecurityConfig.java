@@ -27,7 +27,7 @@ public class SecurityConfig {
     public SecurityFilterChain apiSecurityFilterChain(HttpSecurity http) throws Exception {
 
         http.authorizeHttpRequests(endPoint ->
-                endPoint.requestMatchers("/api/customers/public", "/api/stores/**").permitAll()
+                endPoint.requestMatchers("/api/customers/public", "/api/stores/**", "/api/json-place-holer/*").permitAll()
                         .requestMatchers(HttpMethod.POST, "api/customers").hasRole("MANAGER")
                         .anyRequest().authenticated());
         http.sessionManagement(session ->
