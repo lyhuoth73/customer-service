@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: customer-service
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8080/realms/dms
+  jpa:
+    hibernate:
+      ddl-auto: update
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5001/customer
+    username: postgres
+    password: qwer
+
+server:
+  port: 9000
+
