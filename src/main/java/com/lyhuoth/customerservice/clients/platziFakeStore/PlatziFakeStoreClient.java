@@ -8,7 +8,7 @@ import org.springframework.web.service.annotation.HttpExchange;
 import java.util.List;
 
 @HttpExchange
-@HttpServiceClient(baseUrl = "https://api.escuelajs.co/api/v1")
+@HttpServiceClient(baseUrl = "${clients.platzifakestore.base-url}")
 public interface PlatziFakeStoreClient {
 
     @GetExchange("/categories")

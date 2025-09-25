@@ -7,8 +7,10 @@ import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.AbstractBeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
+import org.springframework.context.EnvironmentAware;
 import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
 import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;
+import org.springframework.core.env.Environment;
 import org.springframework.core.type.AnnotationMetadata;
 import org.springframework.core.type.filter.AnnotationTypeFilter;
 import org.springframework.util.ClassUtils;
@@ -21,62 +23,61 @@ import org.springframework.web.service.invoker.HttpServiceProxyFactory;
 import java.util.Map;
 import java.util.Set;
 
-public class HttpClientsRegistrar implements ImportBeanDefinitionRegistrar {
+public class HttpClientsRegistrar implements ImportBeanDefinitionRegistrar, EnvironmentAware {
 
 
-        @Override
-        public void registerBeanDefinitions(AnnotationMetadata metadata, BeanDefinitionRegistry registry) {
-            // 1. Scanner that finds interfaces with our custom annotation
-            ClassPathScanningCandidateComponentProvider scanner = new ClassPathScanningCandidateComponentProvider(false) {
-                @Override
-                protected boolean isCandidateComponent(AnnotatedBeanDefinition beanDefinition) {
-                    return beanDefinition.getMetadata().isInterface();
-                }
-            };
-            scanner.addIncludeFilter(new AnnotationTypeFilter(HttpServiceClient.class));
+    private Environment environment;
 
-            // 2. Get the base package to scan from @EnableHttpClients
-            Map<String, Object> attrs = metadata.getAnnotationAttributes(EnableHttpClients.class.getName());
-            String[] basePackages = (String[]) attrs.get("basePackages");
+    @Override
+    public void setEnvironment(Environment environment) {
+        this.environment = environment;
+    }
 
-            // 3. Scan for interfaces and register a bean for each one
-            for (String basePackage : basePackages) {
-                Set<BeanDefinition> candidates = scanner.findCandidateComponents(basePackage);
-                for (BeanDefinition candidate : candidates) {
-                    try {
-                        String interfaceName = candidate.getBeanClassName();
-                        Class<?> clientInterface = ClassUtils.forName(interfaceName, null);
+    @Override
+    public void registerBeanDefinitions(AnnotationMetadata metadata, BeanDefinitionRegistry registry) {
+        // Scanner remains the same
+        ClassPathScanningCandidateComponentProvider scanner = new ClassPathScanningCandidateComponentProvider(false) {
+            @Override
+            protected boolean isCandidateComponent(AnnotatedBeanDefinition beanDefinition) {
+                return beanDefinition.getMetadata().isInterface();
+            }
+        };
+        scanner.addIncludeFilter(new AnnotationTypeFilter(HttpServiceClient.class));
 
-                        // 4. Get the baseUrl from our @HttpServiceClient annotation
-                        Map<String, Object> annotationAttributes = ((AnnotatedBeanDefinition) candidate).getMetadata()
-                                .getAnnotationAttributes(HttpServiceClient.class.getName());
-                        String baseUrl = (String) annotationAttributes.get("baseUrl");
+        Map<String, Object> attrs = metadata.getAnnotationAttributes(EnableHttpClients.class.getName());
+        String[] basePackages = (String[]) attrs.get("basePackages");
 
-                        // 5. Create a WebClient specifically for this client
-                        WebClient webClient = WebClient.builder().baseUrl(baseUrl).build();
+        for (String basePackage : basePackages) {
+            Set<BeanDefinition> candidates = scanner.findCandidateComponents(basePackage);
+            for (BeanDefinition candidate : candidates) {
+                try {
+                    String interfaceName = candidate.getBeanClassName();
+                    Class<?> clientInterface = ClassUtils.forName(interfaceName, null);
 
-                        // 6. Create the proxy factory
-                        HttpServiceProxyFactory factory = HttpServiceProxyFactory
-                                .builder()
-                                .exchangeAdapter(WebClientAdapter.create(webClient))
-                                .build();
+                    Map<String, Object> annotationAttributes = ((AnnotatedBeanDefinition) candidate).getMetadata()
+                            .getAnnotationAttributes(HttpServiceClient.class.getName());
+                    String baseUrlValue = (String) annotationAttributes.get("baseUrl");
 
-                        // 7. Create a FactoryBean definition that will produce the client proxy
-                        BeanDefinitionBuilder builder = BeanDefinitionBuilder
-                                .genericBeanDefinition(HttpServiceClientFactoryBean.class);
+                    // Resolve property placeholders like "${clients.placeholder.base-url}"
+                    String resolvedBaseUrl = environment.resolvePlaceholders(baseUrlValue);
 
-                        builder.addConstructorArgValue(clientInterface);
-                        builder.addConstructorArgValue(factory);
-                        builder.setAutowireMode(AbstractBeanDefinition.AUTOWIRE_BY_TYPE);
+                    // **KEY CHANGE**: Reference the central WebClient.Builder
+                    // We are now creating a definition for the FactoryBean that depends on our builder.
+                    BeanDefinitionBuilder builder = BeanDefinitionBuilder
+                            .genericBeanDefinition(HttpServiceClientFactoryBean.class);
 
-                        // 8. Register the FactoryBean with a generated name
-                        String beanName = StringUtils.uncapitalize(clientInterface.getSimpleName());
-                        registry.registerBeanDefinition(beanName, builder.getBeanDefinition());
+                    builder.addConstructorArgValue(clientInterface);
+                    builder.addConstructorArgValue(resolvedBaseUrl); // Pass the resolved URL
+                    builder.addPropertyReference("webClientBuilder", "webClientBuilder"); // Inject the builder bean
+                    builder.setAutowireMode(AbstractBeanDefinition.AUTOWIRE_BY_TYPE);
 
-                    } catch (ClassNotFoundException e) {
-                        throw new IllegalStateException("Cannot find HTTP client interface class", e);
-                    }
+                    String beanName = StringUtils.uncapitalize(clientInterface.getSimpleName());
+                    registry.registerBeanDefinition(beanName, builder.getBeanDefinition());
+
+                } catch (ClassNotFoundException e) {
+                    throw new IllegalStateException("Cannot find HTTP client interface class", e);
                 }
             }
         }
+    }
 }

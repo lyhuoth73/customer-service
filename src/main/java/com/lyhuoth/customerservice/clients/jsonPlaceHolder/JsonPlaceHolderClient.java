@@ -8,7 +8,7 @@ import org.springframework.web.service.annotation.HttpExchange;
 import java.util.List;
 
 @HttpExchange
-@HttpServiceClient(baseUrl = "https://jsonplaceholder.typicode.com")
+@HttpServiceClient(baseUrl = "${clients.jsonplaceholder.base-url}")
 public interface JsonPlaceHolderClient {
 
     @GetExchange("/posts")

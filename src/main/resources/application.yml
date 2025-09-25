@@ -18,3 +18,10 @@ spring:
 server:
   port: 9000
 
+
+clients:
+  platzifakestore:
+    base-url: https://api.escuelajs.co/api/v1
+  jsonplaceholder:
+    base-url: https://jsonplaceholder.typicode.com
+
