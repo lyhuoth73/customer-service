@@ -1,27 +1,63 @@
 spring:
   application:
-    name: customer-service
+    name: customer
+  profiles:
+    active: dev
+  config:
+    import: optional:configserver:http://localhost:8888
+  cloud:
+    config:
+      username: admin
+      password: qwer
+  rabbitmq:
+    host: localhost
+    username: admin
+    password: password
+    port: 5672
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5555/db_customer
+    username: rtrpostgres
+    password: qwerqwer
   security:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://localhost:8080/realms/dms
-  jpa:
-    hibernate:
-      ddl-auto: update
-  datasource:
-    driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5001/customer
-    username: postgres
-    password: qwer
+          issuer-uri: https://oauth2.phsarone.online/realms/mbd
 
+# Eureka Client Configuration
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+    register-with-eureka: true
+    fetch-registry: true
+  instance:
+    instance-id: ${spring.application.name}:${server.port}
+    prefer-ip-address: true
+
+
+#  jpa:
+#    hibernate:
+#      ddl-auto: update
+#  datasource:
+#    driver-class-name: org.postgresql.Driver
+#    url: jdbc:postgresql://localhost:5001/customer
+#    username: postgres
+#    password: qwer
+#
 server:
   port: 9000
-
-
+#
+#
 clients:
   platzifakestore:
     base-url: https://api.escuelajs.co/api/v1
   jsonplaceholder:
     base-url: https://jsonplaceholder.typicode.com
-
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
