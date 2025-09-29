@@ -1,8 +1,8 @@
-package com.lyhuoth.customerservice.jsonPlaceHolder.service.impl;
+package com.lyhuoth.customerservice.feature.jsonPlaceHolder.service.impl;
 
 import com.lyhuoth.customerservice.clients.jsonPlaceHolder.JsonPlaceHolderClient;
 import com.lyhuoth.customerservice.clients.jsonPlaceHolder.dto.PostResponseDTO;
-import com.lyhuoth.customerservice.jsonPlaceHolder.service.JsonPlaceHolderService;
+import com.lyhuoth.customerservice.feature.jsonPlaceHolder.service.JsonPlaceHolderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
