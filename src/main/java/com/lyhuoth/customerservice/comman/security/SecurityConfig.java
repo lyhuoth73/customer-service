@@ -1,4 +1,4 @@
-package com.lyhuoth.customerservice.security;
+package com.lyhuoth.customerservice.comman.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,9 +25,11 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain apiSecurityFilterChain(HttpSecurity http) throws Exception {
-
+        http.csrf(httpSecurityCsrfConfigurer ->
+                httpSecurityCsrfConfigurer.disable());
         http.authorizeHttpRequests(endPoint ->
-                endPoint.requestMatchers("/api/customers/public", "/api/stores/**", "/api/json-place-holer/*").permitAll()
+                endPoint.requestMatchers("/api/customers/public", "/api/stores/**", "/api/json-place-holer/*"
+                                , "/secrets/**", "/actuator/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "api/customers").hasRole("MANAGER")
                         .anyRequest().authenticated());
         http.sessionManagement(session ->
