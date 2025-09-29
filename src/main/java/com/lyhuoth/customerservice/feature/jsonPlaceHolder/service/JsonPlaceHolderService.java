@@ -1,4 +1,4 @@
-package com.lyhuoth.customerservice.jsonPlaceHolder.service;
+package com.lyhuoth.customerservice.feature.jsonPlaceHolder.service;
 
 import com.lyhuoth.customerservice.clients.jsonPlaceHolder.dto.PostResponseDTO;
 
