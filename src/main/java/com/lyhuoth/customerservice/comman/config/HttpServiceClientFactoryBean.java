@@ -1,4 +1,4 @@
-package com.lyhuoth.customerservice.config;
+package com.lyhuoth.customerservice.comman.config;
 
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.web.reactive.function.client.WebClient;

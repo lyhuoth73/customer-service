@@ -1,4 +1,4 @@
-package com.lyhuoth.customerservice.aspect;
+package com.lyhuoth.customerservice.comman.aspect;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

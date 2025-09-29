@@ -1,7 +1,7 @@
-package com.lyhuoth.customerservice.config;
+package com.lyhuoth.customerservice.comman.config;
 
-import com.lyhuoth.customerservice.aspect.EnableHttpClients;
-import com.lyhuoth.customerservice.aspect.HttpServiceClient;
+import com.lyhuoth.customerservice.comman.aspect.EnableHttpClients;
+import com.lyhuoth.customerservice.comman.aspect.HttpServiceClient;
 import org.springframework.beans.factory.annotation.AnnotatedBeanDefinition;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.AbstractBeanDefinition;
@@ -15,10 +15,6 @@ import org.springframework.core.type.AnnotationMetadata;
 import org.springframework.core.type.filter.AnnotationTypeFilter;
 import org.springframework.util.ClassUtils;
 import org.springframework.util.StringUtils;
-import org.springframework.web.reactive.function.client.WebClient;
-import org.springframework.web.reactive.function.client.support.WebClientAdapter;
-import org.springframework.web.service.annotation.HttpExchange;
-import org.springframework.web.service.invoker.HttpServiceProxyFactory;
 
 import java.util.Map;
 import java.util.Set;
