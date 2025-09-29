@@ -1,9 +1,9 @@
-package com.lyhuoth.customerservice.customer.service.impl;
+package com.lyhuoth.customerservice.feature.customer.service.impl;
 
-import com.lyhuoth.customerservice.customer.dto.CreateCustomerRequestDTO;
-import com.lyhuoth.customerservice.customer.dto.CustomerResponse;
-import com.lyhuoth.customerservice.customer.mapper.CustomerMapper;
-import com.lyhuoth.customerservice.customer.service.CustomerService;
+import com.lyhuoth.customerservice.feature.customer.dto.CreateCustomerRequestDTO;
+import com.lyhuoth.customerservice.feature.customer.dto.CustomerResponse;
+import com.lyhuoth.customerservice.feature.customer.mapper.CustomerMapper;
+import com.lyhuoth.customerservice.feature.customer.service.CustomerService;
 import com.lyhuoth.customerservice.domain.entity.CustomerEntity;
 import com.lyhuoth.customerservice.domain.repository.CustomerRepository;
 import lombok.RequiredArgsConstructor;

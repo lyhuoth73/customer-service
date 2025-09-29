@@ -1,6 +1,6 @@
-package com.lyhuoth.customerservice.aspect;
+package com.lyhuoth.customerservice.comman.aspect;
 
-import com.lyhuoth.customerservice.config.HttpClientsRegistrar;
+import com.lyhuoth.customerservice.comman.config.HttpClientsRegistrar;
 import org.springframework.context.annotation.Import;
 import java.lang.annotation.*;
 
