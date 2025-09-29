@@ -1,4 +1,4 @@
-package com.lyhuoth.customerservice.customer.dto;
+package com.lyhuoth.customerservice.feature.customer.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
