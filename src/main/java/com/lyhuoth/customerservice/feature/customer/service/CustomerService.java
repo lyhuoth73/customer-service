@@ -1,7 +1,7 @@
-package com.lyhuoth.customerservice.customer.service;
+package com.lyhuoth.customerservice.feature.customer.service;
 
-import com.lyhuoth.customerservice.customer.dto.CreateCustomerRequestDTO;
-import com.lyhuoth.customerservice.customer.dto.CustomerResponse;
+import com.lyhuoth.customerservice.feature.customer.dto.CreateCustomerRequestDTO;
+import com.lyhuoth.customerservice.feature.customer.dto.CustomerResponse;
 import jakarta.validation.Valid;
 
 import java.util.List;

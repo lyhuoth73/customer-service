@@ -1,12 +1,11 @@
-package com.lyhuoth.customerservice.customer.mapper;
+package com.lyhuoth.customerservice.feature.customer.mapper;
 
-import com.lyhuoth.customerservice.customer.dto.CreateCustomerRequestDTO;
-import com.lyhuoth.customerservice.customer.dto.CustomerResponse;
+import com.lyhuoth.customerservice.feature.customer.dto.CreateCustomerRequestDTO;
+import com.lyhuoth.customerservice.feature.customer.dto.CustomerResponse;
 import com.lyhuoth.customerservice.domain.entity.CustomerEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.ReportingPolicy;
-import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 

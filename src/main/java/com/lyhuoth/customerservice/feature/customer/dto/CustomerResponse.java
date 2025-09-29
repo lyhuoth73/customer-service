@@ -1,4 +1,4 @@
-package com.lyhuoth.customerservice.customer.dto;
+package com.lyhuoth.customerservice.feature.customer.dto;
 
 import lombok.Builder;
 
